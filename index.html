@@ -75,7 +75,7 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 
 .top-bar { height: 50px; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; background: rgba(0,0,0,0.7); font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .room-card { background: var(--gold-dark); color: #000; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
-.top-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 10px; border-radius: 15px; font-size: 11px; cursor: pointer; }
+.top-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 8px; border-radius: 15px; font-size: 11px; cursor: pointer; margin-left: 4px;}
 .spectator-bar { position: absolute; top: 55px; left: 10px; background: rgba(0,0,0,0.7); border: 1px solid #555; border-radius: 15px; padding: 4px 10px; font-size: 11px; color: #ccc; z-index: 100; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;}
 
 .game-area { flex: 1; position: relative; overflow: hidden; }
@@ -92,38 +92,36 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 .seat-content { display: flex; align-items: center; gap: 4px; }
 
 /* 头像盒 */
-.avatar-part { display: flex; flex-direction: column; align-items: center; position: relative; width: 50px; flex-shrink: 0; transition: all 0.3s;}
-.player-avatar { width: 38px; height: 38px; border-radius: 6px; border: 1px solid #555; object-fit: cover; transition: all 0.3s;}
-.constellation-tag { background: #1e5b9e; color: #fff; font-size: 10px; padding: 0 3px; border-radius: 4px; margin-top: -6px; z-index: 2; border: 1px solid #55aaff; font-weight: bold; white-space: nowrap; transform: scale(0.9);}
-.player-name-box { background: rgba(0,0,0,0.8); color: #fff; padding: 1px 4px; border-radius: 10px; font-size: 10px; margin-top: 2px; white-space: nowrap; width: 50px; overflow: hidden; text-overflow: ellipsis; text-align: center;}
-.player-score-text { color: #ffd700; font-size: 14px; font-weight: 900; margin-top: 1px; text-shadow: 0 2px 4px #000, 0 0 5px rgba(255,215,0,0.5); }
+.avatar-part { display: flex; flex-direction: column; align-items: center; position: relative; width: var(--avatar-width, 48px); flex-shrink: 0; transition: all 0.3s;}
+.player-avatar { width: 100%; aspect-ratio: 1; border-radius: 6px; border: 1px solid #555; object-fit: cover; transition: all 0.3s;}
+.constellation-tag { background: #1e5b9e; color: #fff; font-size: calc(var(--avatar-width, 48px) * 0.25); padding: 0 3px; border-radius: 4px; margin-top: -6px; z-index: 2; border: 1px solid #55aaff; font-weight: bold; white-space: nowrap; transform: scale(0.9);}
+.player-name-box { background: rgba(0,0,0,0.8); color: #fff; padding: 1px 2px; border-radius: 10px; font-size: calc(var(--avatar-width, 48px) * 0.25); margin-top: 2px; white-space: nowrap; width: 100%; overflow: hidden; text-overflow: ellipsis; text-align: center;}
+.player-score-text { color: #ffd700; font-size: calc(var(--avatar-width, 48px) * 0.35); font-weight: 900; margin-top: 1px; text-shadow: 0 2px 4px #000, 0 0 5px rgba(255,215,0,0.5); }
 
 /* 牌盒 */
 .cards-part { display: flex; flex-direction: column; align-items: center; position: relative; transition: all 0.3s;}
 .other-cards { display: flex; gap: 1px; margin-bottom: 2px;}
-.small-card { width: 15px; height: 22px; border-radius: 2px; border: 1px solid #ccc; background: #fff; color: #333; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: bold; flex-direction: column; line-height: 1; transition: all 0.3s;}
+.small-card { width: var(--card-width, 16px); height: var(--card-height, 24px); border-radius: 2px; border: 1px solid #ccc; background: #fff; color: #333; display: flex; justify-content: center; align-items: center; font-size: calc(var(--card-width, 16px) * 0.6); font-weight: bold; flex-direction: column; line-height: 1; transition: all 0.3s; padding: 2px 0;}
 .small-card.red { color: #ff4d4f; }
 .small-card.back { background: repeating-linear-gradient(45deg, #1e3c72, #1e3c72 4px, #2a5298 4px, #2a5298 8px); border-color: #3b6bb4; color: transparent; }
+.small-card .suit { font-size: calc(var(--card-width, 16px) * 0.8); }
 
-/* 牌型文字盖在牌面上 */
+/* 牌型文字 */
 .card-type-overlay { 
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    font-size: 18px; font-weight: 900; color: #ffe600;
-    -webkit-text-stroke: 1.5px #5c2e00; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    font-size: calc(var(--card-width, 16px) * 1.1); font-weight: 900; 
+    -webkit-text-stroke: 1px #111; text-shadow: 1px 1px 3px rgba(0,0,0,0.9), 0 0 5px rgba(0,0,0,0.8);
     white-space: nowrap; pointer-events: none; z-index: 20; font-family: 'ZCOOL KuaiLe', cursive;
+    display: flex; justify-content: center; align-items: center; width: 100%;
 }
+.type-max { color: #00f2fe; text-shadow: 0 0 8px #00f2fe, 1px 1px 2px #000; }
+.type-niu { color: #ffd700; text-shadow: 0 0 8px #ffd700, 1px 1px 2px #000; }
+.type-normal { color: #aaaaaa; text-shadow: 0 0 5px #fff, 1px 1px 2px #000; }
 
-.banker-icon { position: absolute; top: -6px; left: -6px; background: #ff4d4f; color: #fff; font-size: 10px; padding: 1px 4px; border-radius: 10px; font-weight: bold; z-index: 10; border: 1px solid #fff;}
-.grab-badge { position: absolute; top: -6px; right: -10px; background: var(--btn-gold); color: #000; font-size: 10px; padding: 1px 4px; border-radius: 8px; font-weight: bold; z-index: 10; white-space: nowrap;}
+.banker-icon { position: absolute; top: -6px; left: -6px; background: #ff4d4f; color: #fff; font-size: calc(var(--avatar-width, 48px) * 0.22); padding: 1px 4px; border-radius: 10px; font-weight: bold; z-index: 10; border: 1px solid #fff;}
+.grab-badge { position: absolute; top: -6px; right: -10px; background: var(--btn-gold); color: #000; font-size: calc(var(--avatar-width, 48px) * 0.22); padding: 1px 4px; border-radius: 8px; font-weight: bold; z-index: 10; white-space: nowrap;}
 .grab-badge.no-grab { background: #666; color: #fff; }
-.bet-badge { position: absolute; top: -6px; right: -10px; background: var(--btn-blue); color: #fff; font-size: 10px; padding: 1px 4px; border-radius: 8px; font-weight: bold; z-index: 10; white-space: nowrap;}
-
-/* 缩放小尺寸适配 */
-.scale-down .player-avatar { width: 30px; height: 30px; }
-.scale-down .avatar-part { width: 40px; }
-.scale-down .player-name-box { width: 40px; font-size: 9px; }
-.scale-down .small-card { width: 12px; height: 18px; font-size: 8px; }
-.scale-down .card-type-overlay { font-size: 14px; -webkit-text-stroke: 1px #5c2e00; }
+.bet-badge { position: absolute; top: -6px; right: -10px; background: var(--btn-blue); color: #fff; font-size: calc(var(--avatar-width, 48px) * 0.22); padding: 1px 4px; border-radius: 8px; font-weight: bold; z-index: 10; white-space: nowrap;}
 
 /* 底部区域 */
 .bottom-bar { height: 170px; position: relative; z-index: 50; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 10px; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent); }
@@ -141,21 +139,14 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 
 /* 自己手牌区 */
 .my-hand-area { display: flex; justify-content: center; align-items: flex-end; position: relative; height: 90px; }
-.my-info { position: absolute; left: 15px; bottom: 5px; display: flex; flex-direction: column; align-items: center; width: 60px; }
-.my-banker-icon { position: absolute; top: -8px; left: -8px; background: #ff4d4f; color: #fff; font-size: 11px; padding: 1px 6px; border-radius: 10px; font-weight: bold; z-index: 10; border: 1px solid #fff;}
+.my-info { position: absolute; left: 15px; bottom: 5px; display: flex; flex-direction: column; align-items: center; width: var(--avatar-width, 48px); }
+.my-banker-icon { position: absolute; top: -8px; left: -8px; background: #ff4d4f; color: #fff; font-size: calc(var(--avatar-width, 48px) * 0.22); padding: 1px 6px; border-radius: 10px; font-weight: bold; z-index: 10; border: 1px solid #fff;}
 .my-cards { display: flex; gap: 5px; margin-left: 40px; margin-bottom: 15px;}
-.my-card { width: 42px; height: 62px; background: #fff; border-radius: 5px; border: 1px solid #ccc; display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; font-size: 18px; position: relative; color: #333; box-shadow: 0 2px 5px rgba(0,0,0,0.5);}
+.my-card { width: calc(var(--card-width, 16px) * 2.5); height: calc(var(--card-height, 24px) * 2.5); background: #fff; border-radius: 5px; border: 1px solid #ccc; display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; font-size: calc(var(--card-width, 16px) * 1.2); position: relative; color: #333; box-shadow: 0 2px 5px rgba(0,0,0,0.5);}
 .my-card.red { color: #ff4d4f; }
 .my-card.back { background: repeating-linear-gradient(45deg, #1e3c72, #1e3c72 4px, #2a5298 4px, #2a5298 8px); border-color: #3b6bb4; color: transparent; }
-.my-card .suit { font-size: 20px; }
-.my-card .val { position: absolute; top: 2px; left: 4px; font-size: 12px; }
-
-/* 大号开牌弹窗 */
-.big-card-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 2000; }
-.big-card { width: 160px; height: 240px; background: #fff; border-radius: 12px; border: 4px solid var(--gold); display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; font-size: 80px; box-shadow: 0 0 30px rgba(255,215,0,0.6); }
-.big-card.red { color: #ff4d4f; }
-.big-card.black { color: #333; }
-.big-card.back { background: repeating-linear-gradient(45deg, #1e3c72, #1e3c72 10px, #2a5298 10px, #2a5298 20px); border-color: #3b6bb4; color: transparent; }
+.my-card .suit { font-size: calc(var(--card-width, 16px) * 1.5); }
+.my-card .val { position: absolute; top: 2px; left: 4px; font-size: calc(var(--card-width, 16px) * 0.8); }
 
 @keyframes floatUpScore { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-60px) scale(1.5); } }
 .score-fly { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 18px; font-weight: bold; animation: floatUpScore 2s forwards; pointer-events: none; z-index: 100; white-space: nowrap;}
@@ -169,6 +160,8 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 .rich-name { flex: 1; font-size: 15px; margin-left: 10px; color: #fff; text-align: left; }
 .rich-score { font-size: 16px; font-weight: bold; }
 .rich-actions { display: flex; gap: 10px; margin-top: 20px; }
+.history-list { margin-top: 10px; max-height: 150px; overflow-y: auto; font-size: 12px; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 8px;}
+.history-item { display: flex; justify-content: space-between; padding: 5px; border-bottom: 1px solid #333;}
 
 /* 聊天面板 */
 .floating-chat-btn {
@@ -241,12 +234,13 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 
 <div class="game-room" id="gameRoom">
     <div class="top-bar">
-        <div style="display:flex;gap:10px;align-items:center;">
+        <div style="display:flex;gap:8px;align-items:center;">
             <button class="top-btn" style="background:var(--gold-dark); color:#000; font-weight:bold;" onclick="exitRoom()">大厅</button>
             <div class="room-card">房卡 <span id="roomCardNum">0</span></div>
             <div>局数:<span id="nowRound">1</span>/24</div>
         </div>
         <div style="display:flex;gap:5px;">
+            <button class="top-btn" onclick="copyRoomLink()">复制链接</button>
             <button class="top-btn" onclick="showRuleModal()">规则</button>
             <button class="top-btn" onclick="toggleBgm()" id="bgmToggle">🔇音乐</button>
         </div>
@@ -322,9 +316,7 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 
 <div class="floating-chat-btn" onclick="toggleChatPanel()">💬</div>
 
-<div class="big-card-modal" id="bigCardModal" onclick="revealMyCard()">
-    <div class="big-card back" id="bigCardEl"></div>
-</div>
+<!-- 移除了中间的大暗牌弹窗，改为直接在底牌翻开 -->
 
 <div class="modal-mask" id="registerModal">
     <div class="modal-box">
@@ -351,7 +343,12 @@ input, button, select { outline: none; border: none; font-family: inherit; }
     <p><span>无牛 ×1</span>：凑不出牛</p>
 </div><button class="modal-btn cancel" style="margin-top:15px;" onclick="document.getElementById('ruleModal').style.display='none'">关闭</button></div></div>
 
-<div class="modal-mask" id="richListModal"><div class="rich-list-box" id="richListBox"><div class="rich-title">🏆 富豪榜 🏆</div><div id="richListContent" style="max-height: 350px; overflow-y: auto;"></div><div class="rich-actions"><button class="modal-btn" style="background: #444; color: #fff;" onclick="closeRichList()">回大厅</button></div></div></div>
+<div class="modal-mask" id="richListModal"><div class="rich-list-box" id="richListBox">
+    <div class="rich-title">🏆 富豪榜 🏆</div>
+    <div id="richListContent" style="max-height: 350px; overflow-y: auto;"></div>
+    <div class="history-list" id="historyListContent"></div>
+    <div class="rich-actions"><button class="modal-btn" style="background: #444; color: #fff;" onclick="closeRichList()">回大厅</button></div>
+</div></div>
 
 <div class="modal-mask" id="createModal"><div class="modal-box">
     <h3>创建房间</h3>
@@ -367,7 +364,18 @@ input, button, select { outline: none; border: none; font-family: inherit; }
     <button class="modal-btn cancel" onclick="hideModal('createModal')">取消</button>
 </div></div>
 
-<div class="modal-mask" id="clubModal"><div class="modal-box"><h3>俱乐部成员</h3><div class="club-list" id="clubList" style="text-align:left; font-size:14px; max-height:50vh; overflow-y:auto;"></div><button class="modal-btn cancel" style="margin-top:15px;" onclick="document.getElementById('clubModal').style.display='none'">关闭</button></div></div>
+<div class="modal-mask" id="clubModal"><div class="modal-box">
+    <h3>俱乐部成员</h3>
+    <div class="club-list" id="clubList" style="text-align:left; font-size:14px; max-height:50vh; overflow-y:auto; margin-bottom: 15px;">
+        <div class="club-item" style="display:flex; justify-content:space-between; margin-bottom:10px; padding-bottom:5px; border-bottom:1px solid #333;">
+            <span>霸气的会长</span><span style="color:#ffd700">在线</span>
+        </div>
+        <!-- 动态生成俱乐部房间链接 -->
+        <div id="clubRooms" style="font-size:12px; color:#aaa;">加载中...</div>
+    </div>
+    <button class="modal-btn" onclick="alert('已发送邀请')">邀请好友</button>
+    <button class="modal-btn cancel" style="margin-top:15px;" onclick="document.getElementById('clubModal').style.display='none'">关闭</button>
+</div></div>
 
 <div class="chat-panel" id="chatPanel"><div class="chat-box" id="quickChatBox"></div><div style="text-align:center; padding:10px; color:#888; cursor:pointer;" onclick="toggleChatPanel()">收起面板</div></div>
 
@@ -381,6 +389,8 @@ let bankerSeat = 0, currentBetMulti = 1;
 let myRole = 'member', myNickname = '玩家', myIdSuffix = '00001', myCardCount = 0, gamePhase = 'wait', countdownTimer = null, leftTime = 0;
 let occupiedSeats = {}, seatScores = {}, playerCards = {}, playerCardInfo = {}, seatRules = {}, scoreAnimations = {}, grabMultipliers = {}, betMultipliers = {}, readySet = new Set(), autoReady = false;
 let isSpectator = true, spectatorList = []; 
+let roundHistory = []; // 记录每局战绩
+
 const baseSuits = [{name:'♠', color:'black', weight: 10}, {name:'♥', color:'red', weight: 9}, {name:'♣', color:'black', weight: 8}, {name:'♦', color:'red', weight: 7}];
 const starSuits = [{name:'☀️', color:'red', weight: 6}, {name:'🌙', color:'black', weight: 5}, {name:'⭐', color:'black', weight: 4}];
 const worldSuits = [{name:'天', color:'black', weight: 3}, {name:'地', color:'red', weight: 2}, {name:'人', color:'black', weight: 1}];
@@ -394,7 +404,10 @@ function compareCards(a, b) { if(a.rank>b.rank) return 1; if(a.rank<b.rank) retu
 
 function saveRoomState() { 
     try { 
-        localStorage.setItem('xtd_room_'+currentRoomId, JSON.stringify({occupiedSeats, seatScores, mySeatId, readySet: Array.from(readySet), autoReady, gamePhase, bankerSeat, nowRound, isSpectator, currentMultiSpec})); 
+        localStorage.setItem('xtd_room_'+currentRoomId, JSON.stringify({
+            occupiedSeats, seatScores, mySeatId, readySet: Array.from(readySet), autoReady, 
+            gamePhase, bankerSeat, nowRound, isSpectator, currentMultiSpec, roundHistory
+        })); 
         if(gamePhase !== 'gameover') {
             let active = JSON.parse(localStorage.getItem('xtd_active_rooms') || '[]');
             if(!active.includes(currentRoomId)) {
@@ -409,25 +422,53 @@ function loadRoomState() {
     try { 
         const str = localStorage.getItem('xtd_room_'+currentRoomId); if(!str) return false; 
         const d = JSON.parse(str); 
-        occupiedSeats=d.occupiedSeats||{}; seatScores=d.seatScores||{}; mySeatId=d.mySeatId||-1; readySet=new Set(d.readySet||[]); autoReady=d.autoReady!==false; gamePhase=d.gamePhase||'wait'; bankerSeat=d.bankerSeat||0; nowRound=d.nowRound||1; isSpectator=d.isSpectator!==false; currentMultiSpec=d.currentMultiSpec||[1,2,5,8,12]; 
+        occupiedSeats=d.occupiedSeats||{}; seatScores=d.seatScores||{}; mySeatId=d.mySeatId||-1; 
+        readySet=new Set(d.readySet||[]); autoReady=d.autoReady!==false; gamePhase=d.gamePhase||'wait'; 
+        bankerSeat=d.bankerSeat||0; nowRound=d.nowRound||1; isSpectator=d.isSpectator!==false; 
+        currentMultiSpec=d.currentMultiSpec||[1,2,5,8,12]; roundHistory = d.roundHistory || [];
         return true; 
     } catch(e){ return false; } 
 }
 
+// 动态计算牌和头像的尺寸，自适应所有手机屏幕
+function adjustUIForScreen() {
+    let width = window.innerWidth;
+    // 基础尺寸计算
+    let cardW = 16, cardH = 24, avatarW = 48;
+    
+    if (currentSeat <= 8) {
+        cardW = width * 0.04 > 20 ? 20 : width * 0.04;
+        avatarW = width * 0.12 > 56 ? 56 : width * 0.12;
+    } else if (currentSeat <= 12) {
+        cardW = width * 0.035 > 16 ? 16 : width * 0.035;
+        avatarW = width * 0.1 > 48 ? 48 : width * 0.1;
+    } else {
+        cardW = width * 0.028 > 13 ? 13 : width * 0.028;
+        avatarW = width * 0.08 > 40 ? 40 : width * 0.08;
+    }
+    cardH = cardW * 1.45;
+
+    document.documentElement.style.setProperty('--card-width', `${cardW}px`);
+    document.documentElement.style.setProperty('--card-height', `${cardH}px`);
+    document.documentElement.style.setProperty('--avatar-width', `${avatarW}px`);
+}
+window.addEventListener('resize', adjustUIForScreen);
+
 window.onload = function() { 
     const p = new URLSearchParams(location.search).get('room'); 
     const isLogined = localStorage.getItem('xtd_logined');
-    
     if (isLogined) {
         myRole = localStorage.getItem('xtd_role') || 'member';
         myNickname = localStorage.getItem('xtd_name') || '玩家';
         myIdSuffix = localStorage.getItem('xtd_id') || '00001';
         myCardCount = parseInt(localStorage.getItem('xtd_card')||'0');
-        
         document.getElementById('loginBox').style.display = 'none';
         
         if (p) {
             currentRoomId = p;
+            // 根据URL判断房间人数，如果URL带有参数可解析
+            let urlParams = new URLSearchParams(location.search);
+            currentSeat = parseInt(urlParams.get('seat')) || 8;
             enterRoomDirectly();
         } else {
             enterLobby();
@@ -481,9 +522,32 @@ function enterLobby() {
 }
 
 function showClub() { 
-    let html = `<div class="club-item"><span>霸气的会长</span><span style="color:#ffd700">在线</span></div>`;
-    document.getElementById('clubList').innerHTML = html;
+    let activeRooms = JSON.parse(localStorage.getItem('xtd_active_rooms') || '[]');
+    let html = '';
+    if(activeRooms.length === 0) {
+        html = '<div style="color:#777;text-align:center;">暂无进行中的房间</div>';
+    } else {
+        activeRooms.forEach(r => {
+            // 模拟带上人数的链接
+            let link = `${window.location.origin}${window.location.pathname}?room=${r}&seat=8`; 
+            html += `<div style="margin-bottom:8px; background:rgba(255,255,255,0.1); padding:8px; border-radius:6px; display:flex; justify-content:space-between; align-items:center;">
+                <span>房间: ${r.substring(4)}</span>
+                <button style="background:var(--gold); color:#000; padding:4px 8px; border-radius:4px; font-size:12px; cursor:pointer;" onclick="copySpecificLink('${link}')">复制链接</button>
+            </div>`;
+        });
+    }
+    document.getElementById('clubRooms').innerHTML = html;
     document.getElementById('clubModal').style.display='flex'; 
+}
+
+function copySpecificLink(link) {
+    let input = document.createElement('input');
+    input.value = link;
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    alert('链接已复制，快去发给好友吧！');
 }
 
 function showRuleModal() { document.getElementById('ruleModal').style.display='flex'; }
@@ -502,18 +566,34 @@ function createRoom() {
     if(currentSeat<2) currentSeat=2; if(currentSeat>24) currentSeat=24;
     currentMultiSpec = document.getElementById('createMulti').value.split(',').map(Number);
     currentRoomId='新天地_'+Math.floor(100000+Math.random()*900000); 
+    mySeatId=-1; isSpectator=true; roundHistory = [];
     
-    mySeatId=-1; isSpectator=true;
-    
-    try{history.pushState({},'',`?room=${currentRoomId}`);}catch(e){} hideModal('createModal'); enterRoomDirectly(); 
+    try{history.pushState({},'',`?room=${currentRoomId}&seat=${currentSeat}`);}catch(e){} 
+    hideModal('createModal'); 
+    enterRoomDirectly(); 
     setTimeout(() => {
-        alert(`房间创建成功！\n链接：${location.href}`);
+        alert(`房间创建成功！\n点击顶部的“复制链接”分享给好友。`);
     }, 500);
 }
 
+function copyRoomLink() {
+    let link = `${window.location.origin}${window.location.pathname}?room=${currentRoomId}&seat=${currentSeat}`;
+    let input = document.createElement('input');
+    input.value = link;
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    alert('房间链接已复制到剪贴板！');
+}
+
 function exitRoom() {
-    if(confirm('确定要退出当前房间并返回大厅吗？')) {
-        localStorage.removeItem('xtd_room_' + currentRoomId);
+    if(confirm('确定要退出当前房间吗？')) {
+        if(mySeatId > 0) {
+            delete occupiedSeats[mySeatId];
+            readySet.delete(mySeatId);
+        }
+        saveRoomState();
         let active = JSON.parse(localStorage.getItem('xtd_active_rooms') || '[]');
         active = active.filter(id => id !== currentRoomId);
         localStorage.setItem('xtd_active_rooms', JSON.stringify(active));
@@ -530,13 +610,15 @@ function enterRoomDirectly() {
     
     if(!loadRoomState()) { 
         occupiedSeats={}; seatScores={}; seatRules={}; playerCards={}; playerCardInfo={}; 
-        mySeatId = -1; isSpectator = true; 
+        mySeatId = -1; isSpectator = true; roundHistory = [];
     }
     if(myRole==='admin') {
         document.getElementById('devPanel').style.display='block';
         document.getElementById('devContent').style.display='block';
         document.getElementById('devArrow').innerText='▲';
     }
+    
+    adjustUIForScreen();
     initChatPanel(); updateSpectateUI(); renderSeats(); updateActionButtons();
     checkStartGame();
 }
@@ -604,6 +686,8 @@ function onSeatClick(targetSeat) {
     
     if(!occupiedSeats[targetSeat]) {
         if(mySeatId > 0) {
+            // 换座时带走自己的分数
+            seatScores[targetSeat] = seatScores[mySeatId] || 0;
             delete occupiedSeats[mySeatId];
             delete seatScores[mySeatId];
             readySet.delete(mySeatId);
@@ -612,7 +696,8 @@ function onSeatClick(targetSeat) {
         mySeatId = targetSeat;
         isSpectator = false;
         occupiedSeats[mySeatId] = myNickname;
-        seatScores[mySeatId] = 0;
+        // 如果原来有记录，不清零，没记录才给0
+        if(seatScores[mySeatId] === undefined) seatScores[mySeatId] = 0;
         
         spectatorList = spectatorList.filter(n => n !== myNickname);
         
@@ -628,8 +713,8 @@ function onSpectateClick() {
     if(gamePhase !== 'wait' && gamePhase !== 'result') return alert('牌局中无法离开座位');
     if(isSpectator) return;
     
+    // 下桌变成观战，分数保留，以便稍后回来
     delete occupiedSeats[mySeatId];
-    delete seatScores[mySeatId];
     readySet.delete(mySeatId);
     
     mySeatId = -1;
@@ -678,7 +763,6 @@ function renderSeats() {
     const wrap = document.getElementById('seatArea'); 
     wrap.innerHTML='';
     
-    // 1. 收集除自己外的其他座位
     let otherSeats = [];
     for(let i=1; i<=currentSeat; i++) {
         if(i !== mySeatId) otherSeats.push(i);
@@ -688,7 +772,6 @@ function renderSeats() {
     let leftSeats = [];
     let rightSeats = [];
     
-    // 2. 交替分配逻辑：防止全挤在一排
     let isLeft = true;
     for(let i=0; i<otherSeats.length; i++) {
         if(isLeft) leftSeats.push(otherSeats[i]);
@@ -696,14 +779,12 @@ function renderSeats() {
         isLeft = !isLeft;
     }
     
-    // 3. 计算顶部需要几个人
     let totalOthers = otherSeats.length;
     let topCount = 0;
     if (totalOthers >= 5) topCount = 1;
     if (totalOthers >= 11) topCount = 2;
     if (totalOthers >= 17) topCount = 3;
 
-    // 从左右两边抽出最靠近中间的人放到顶部
     for(let t=0; t<topCount; t++) {
         if (leftSeats.length >= rightSeats.length && leftSeats.length > 0) {
             topSeats.push(leftSeats.shift());
@@ -712,35 +793,31 @@ function renderSeats() {
         }
     }
 
-    // 4. 缩放判断（如果人数很多，整体变小）
-    let needScale = currentSeat > 8 || leftSeats.length >= 4 || rightSeats.length >= 4;
-    
-    // 5. 渲染顶部
+    // 动态计算坐标，确保不出屏幕
     for (let j=0; j<topSeats.length; j++) {
         let seatId = topSeats[j];
         let xPct = 50;
         if (topSeats.length === 2) xPct = j === 0 ? 30 : 70;
         else if (topSeats.length === 3) xPct = j === 0 ? 20 : (j === 1 ? 50 : 80);
-        createSeatElement(seatId, xPct, 8, wrap, 'top', needScale);
+        createSeatElement(seatId, xPct, 10, wrap, 'top');
     }
 
-    // 6. 渲染左侧
-    let yStart = topSeats.length > 0 ? 24 : 15; 
-    let yEnd = 78;
+    let yStart = topSeats.length > 0 ? 25 : 15; 
+    let yEnd = 80;
+    
     for(let j=0; j<leftSeats.length; j++) {
         let seatId = leftSeats[j];
         let y = leftSeats.length > 1 ? (yStart + (yEnd - yStart) * (j / (leftSeats.length - 1))) : (yStart + yEnd)/2;
-        createSeatElement(seatId, 12, y, wrap, 'left', needScale);
+        // x坐标固定在 8%，防止出屏幕
+        createSeatElement(seatId, 8, y, wrap, 'left');
     }
 
-    // 7. 渲染右侧
     for(let j=0; j<rightSeats.length; j++) {
         let seatId = rightSeats[j];
         let y = rightSeats.length > 1 ? (yStart + (yEnd - yStart) * (j / (rightSeats.length - 1))) : (yStart + yEnd)/2;
-        createSeatElement(seatId, 88, y, wrap, 'right', needScale);
+        createSeatElement(seatId, 92, y, wrap, 'right');
     }
     
-    // 更新底部自己信息
     if(mySeatId > 0 && occupiedSeats[mySeatId]) {
         document.getElementById('myInfoBox').style.display = 'flex';
         document.getElementById('myNameText').innerText = occupiedSeats[mySeatId];
@@ -758,11 +835,9 @@ function renderSeats() {
     renderMyCards();
 }
 
-function createSeatElement(i, xPct, yPct, wrap, side, needScale) {
+function createSeatElement(i, xPct, yPct, wrap, side) {
     const div = document.createElement('div'); 
     div.className='seat'; 
-    if (needScale) div.classList.add('scale-down');
-    
     if(readySet.has(i)) div.classList.add('is-ready');
     div.style.left=`${xPct}%`; 
     div.style.top=`${yPct}%`; 
@@ -778,7 +853,7 @@ function createSeatElement(i, xPct, yPct, wrap, side, needScale) {
                 ch+=`<div class="small-card back"></div>`; 
             } else {
                 if(idx===4 && gamePhase==='reveal') ch+=`<div class="small-card back"></div>`;
-                else ch+=`<div class="small-card ${c.suit.color}"><span>${c.val}</span><span>${c.suit.name}</span></div>`;
+                else ch+=`<div class="small-card ${c.suit.color}"><span>${c.val}</span><span class="suit">${c.suit.name}</span></div>`;
             }
         }); 
         ch+='</div>'; 
@@ -788,7 +863,9 @@ function createSeatElement(i, xPct, yPct, wrap, side, needScale) {
     if(playerCardInfo[i] && (gamePhase==='showdown'||gamePhase==='result'||gamePhase==='reveal')) {
         let tName = playerCardInfo[i].name;
         if (tName === '无牛') tName = '没牛';
-        overlay = `<div class="card-type-overlay">${tName}</div>`;
+        // 根据牌型不同赋予不同的颜色类名
+        let cClass = playerCardInfo[i].cssClass;
+        overlay = `<div class="card-type-overlay ${cClass}">${tName}</div>`;
     }
 
     let fh=''; 
@@ -826,10 +903,8 @@ function createSeatElement(i, xPct, yPct, wrap, side, needScale) {
 
         let contentHtml = '';
         if (side === 'left' || side === 'top') {
-            // 左边和顶部：头像在左，牌在右
             contentHtml = `<div class="seat-content">${avatarHtml}${cardsHtml}</div>`;
         } else {
-            // 右边：牌在左，头像在右
             contentHtml = `<div class="seat-content">${cardsHtml}${avatarHtml}</div>`; 
         }
         div.innerHTML = contentHtml;
@@ -957,15 +1032,11 @@ function setBet(m) {
 function startRevealPhase() { 
     gamePhase='reveal'; document.getElementById('gamePhase').innerText='开牌'; updateActionButtons(); 
     
+    // 移除原来的大弹窗逻辑，改为直接翻开
     if(!isSpectator && playerCards[mySeatId]) {
-        const bigCard = document.getElementById('bigCardEl');
-        bigCard.className = 'big-card back';
-        bigCard.innerHTML = '';
-        document.getElementById('bigCardModal').style.display = 'flex';
-        
-        let sx=0; 
-        bigCard.ontouchstart = e => sx = e.touches[0].clientX;
-        bigCard.ontouchmove = e => { if(Math.abs(e.touches[0].clientX-sx) > 30) revealMyCard(); };
+        setTimeout(() => {
+            revealMyCard();
+        }, 500); // 稍微延迟一下自动翻开
     }
     
     startTimer(5, () => { if(!isSpectator) revealMyCard(); goShowdown(); });
@@ -978,10 +1049,6 @@ function revealMyCard() {
     playerCards[mySeatId][4].hide=false; 
     const c = playerCards[mySeatId][4];
     
-    const bigCard = document.getElementById('bigCardEl');
-    bigCard.className = 'big-card ' + c.suit.color;
-    bigCard.innerHTML = `<div>${c.suit.name}</div><div style="font-size:30px;">${c.val}</div>`;
-    
     renderMyCards(); 
     
     let tName = playerCardInfo[mySeatId].name;
@@ -990,20 +1057,19 @@ function revealMyCard() {
 }
 
 function goShowdown() {
-    setTimeout(() => {
-        document.getElementById('bigCardModal').style.display = 'none';
-        showdownAll();
-    }, 600); 
+    // 取消弹窗，直接进入结算展示
+    showdownAll();
 }
 
 function showdownAll() {
-    clearInterval(countdownTimer); gamePhase='showdown'; document.getElementById('gamePhase').innerText='结算'; 
+    clearInterval(countdownTimer); gamePhase='showdown'; document.getElementById('gamePhase').innerText='摊牌'; 
     for(let i=1;i<=currentSeat;i++) if(playerCards[i]) playerCards[i][4].hide=false; renderSeats();
     
     let bi = playerCardInfo[bankerSeat]; 
     let bankerGrabMulti = grabMultipliers[bankerSeat] || 1;
     
     scoreAnimations={};
+    let roundDetail = {}; // 记录本局明细
     
     for(let i=1;i<=currentSeat;i++){ 
         if(!occupiedSeats[i]||i===bankerSeat||!playerCards[i]) continue; 
@@ -1015,10 +1081,12 @@ function showdownAll() {
             let w = baseScore * bm * pi.multiplier * bankerGrabMulti; 
             scoreAnimations[i] = { val: w }; 
             seatScores[i] = (seatScores[i] || 0) + w; 
+            roundDetail[occupiedSeats[i]] = `赢 ${w}`;
         } else { 
             let l = baseScore * bm * bi.multiplier * bankerGrabMulti; 
             scoreAnimations[i] = { val: -l }; 
             seatScores[i] = (seatScores[i] || 0) - l; 
+            roundDetail[occupiedSeats[i]] = `输 ${l}`;
         } 
     }
     
@@ -1027,10 +1095,17 @@ function showdownAll() {
     scoreAnimations[bankerSeat] = { val: bCalc }; 
     seatScores[bankerSeat] = (seatScores[bankerSeat] || 0) + bCalc;
     
+    if(occupiedSeats[bankerSeat]) roundDetail[occupiedSeats[bankerSeat]] = bCalc>0 ? `赢 ${bCalc}` : `输 ${Math.abs(bCalc)}`;
+
+    // 记录战绩
+    roundHistory.push({ round: nowRound, detail: roundDetail });
+    
     saveRoomState(); renderSeats();
     
+    // 延长摊牌等待时间到 8 秒，方便看清
     setTimeout(()=>{ 
         gamePhase='wait'; nowRound++;
+        document.getElementById('nowRound').innerText=nowRound;
         if(nowRound > 24) return gameOver(); 
         
         playerCards={}; playerCardInfo={}; 
@@ -1038,7 +1113,7 @@ function showdownAll() {
         renderSeats(); updateActionButtons(); 
         
         checkStartGame();
-    }, 3500);
+    }, 8000);
 }
 
 function gameOver() {
@@ -1049,8 +1124,24 @@ function gameOver() {
 function showRichList() { 
     let arr=[]; for(let s in occupiedSeats) if(occupiedSeats[s]) arr.push({name:occupiedSeats[s], score:seatScores[s]||0}); 
     arr.sort((a,b)=>b.score-a.score); let h=''; 
-    arr.forEach((p,i)=>{ let c=p.score>0?'#00ff88':(p.score<0?'#ff4d4f':'#fff'), ic=i===0?'🥇':(i===1?'🥈':(i===2?'🥉':(i+1))); h+=`<div class="rich-item"><div class="rich-rank">${ic}</div><div class="rich-name">${p.name}</div><div class="rich-score" style="color:${c}">${p.score>0?'+':''}${p.score}</div></div>`; }); 
+    arr.forEach((p,i)=>{ 
+        let c=p.score>0?'#00ff88':(p.score<0?'#ff4d4f':'#fff'), ic=i===0?'🥇':(i===1?'🥈':(i===2?'🥉':(i+1))); 
+        h+=`<div class="rich-item"><div class="rich-rank">${ic}</div><div class="rich-name">${p.name}</div><div class="rich-score" style="color:${c}">${p.score>0?'+':''}${p.score}</div></div>`; 
+    }); 
     document.getElementById('richListContent').innerHTML=h; 
+    
+    // 生成历史明细
+    let hh = '<div style="color:var(--gold); margin-bottom:5px; font-weight:bold;">每局战绩明细</div>';
+    if(roundHistory.length === 0) {
+        hh += '<div style="color:#777; text-align:center;">暂无对局记录</div>';
+    } else {
+        roundHistory.forEach(hr => {
+            let detailStr = Object.keys(hr.detail).map(k => `${k}: ${hr.detail[k]}`).join(' | ');
+            hh += `<div class="history-item"><span>第${hr.round}局</span><span>${detailStr}</span></div>`;
+        });
+    }
+    document.getElementById('historyListContent').innerHTML = hh;
+    
     document.getElementById('richListModal').style.display='flex'; 
 }
 function closeRichList() { document.getElementById('richListModal').style.display='none'; exitRoom(); }
