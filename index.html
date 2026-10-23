@@ -86,38 +86,45 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 /* 观战提示大字 */
 .watching-text { position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); font-size: 36px; font-weight: 900; color: #fff; background: linear-gradient(90deg, #8338ec, #3a86ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 20px rgba(131, 56, 236, 0.8); z-index: 50; pointer-events: none; letter-spacing: 5px;}
 
-/* 座位区（左右排列，固定大小） */
+/* 座位区（左右排列，靠边且牌朝向中间） */
 .seat-area { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
-.seat { position: absolute; width: 76px; display: flex; flex-direction: column; align-items: center; pointer-events: auto; transition: all 0.3s ease; transform: translate(-50%, -50%); cursor: pointer; }
+.seat { position: absolute; display: flex; pointer-events: auto; transition: all 0.3s ease; transform: translate(-50%, -50%); cursor: pointer; z-index: 10; }
+
+/* 弹性布局：左侧头像在左牌在右，右侧牌在左头像在右 */
+.seat-content { display: flex; align-items: center; gap: 6px; }
+.row-left { flex-direction: row; }
+.row-right { flex-direction: row-reverse; }
 
 /* 空座位样式 */
-.empty-seat-box { border: 2px solid #a67c39; background: rgba(0,0,0,0.2); border-radius: 8px; width: 56px; height: 56px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: inset 0 0 10px rgba(166,124,57,0.3); }
+.empty-seat-box { border: 2px solid #a67c39; background: rgba(0,0,0,0.3); border-radius: 8px; width: 56px; height: 56px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: inset 0 0 10px rgba(166,124,57,0.3); }
 .empty-arrow { color: #d4a34b; font-size: 16px; line-height: 1; margin-bottom: 2px; }
 .empty-name { color: #e6a23c; font-size: 12px; font-weight: bold; text-shadow: 0 1px 2px #000; font-family: 'ZCOOL KuaiLe', cursive; }
 
 /* 有人入座样式 */
-.occupied-seat-box { display: flex; flex-direction: column; align-items: center; }
-.player-avatar { width: 50px; height: 50px; border-radius: 6px; border: 1px solid #555; object-fit: cover; }
-.constellation-tag { background: #1e5b9e; color: #fff; font-size: 10px; padding: 1px 6px; border-radius: 4px; margin-top: -6px; z-index: 2; border: 1px solid #55aaff; font-weight: bold; }
-.player-name-box { background: rgba(0,0,0,0.8); color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 12px; margin-top: 4px; white-space: nowrap; max-width: 70px; overflow: hidden; text-overflow: ellipsis; }
-.player-score-text { color: #ffd700; font-size: 16px; font-weight: 900; margin-top: 2px; text-shadow: 0 2px 4px #000, 0 0 5px rgba(255,215,0,0.5); }
+.avatar-part { display: flex; flex-direction: column; align-items: center; position: relative; width: 60px; flex-shrink: 0;}
+.player-avatar { width: 44px; height: 44px; border-radius: 6px; border: 1px solid #555; object-fit: cover; }
+.constellation-tag { background: #1e5b9e; color: #fff; font-size: 10px; padding: 0 4px; border-radius: 4px; margin-top: -6px; z-index: 2; border: 1px solid #55aaff; font-weight: bold; white-space: nowrap;}
+.player-name-box { background: rgba(0,0,0,0.8); color: #fff; padding: 1px 6px; border-radius: 10px; font-size: 11px; margin-top: 2px; white-space: nowrap; width: 60px; overflow: hidden; text-overflow: ellipsis; text-align: center;}
+.player-score-text { color: #ffd700; font-size: 15px; font-weight: 900; margin-top: 1px; text-shadow: 0 2px 4px #000, 0 0 5px rgba(255,215,0,0.5); }
 
-.banker-icon { position: absolute; top: -10px; left: -8px; background: #ff4d4f; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 10px; font-weight: bold; z-index: 10; }
-.grab-badge { position: absolute; top: -8px; right: -22px; background: var(--btn-gold); color: #000; font-size: 10px; padding: 2px 5px; border-radius: 8px; font-weight: bold; z-index: 10; }
+.cards-part { display: flex; flex-direction: column; align-items: center; }
+.banker-icon { position: absolute; top: -8px; left: -8px; background: #ff4d4f; color: #fff; font-size: 10px; padding: 1px 5px; border-radius: 10px; font-weight: bold; z-index: 10; border: 1px solid #fff;}
+.grab-badge { position: absolute; top: -8px; right: -5px; background: var(--btn-gold); color: #000; font-size: 10px; padding: 1px 4px; border-radius: 8px; font-weight: bold; z-index: 10; white-space: nowrap;}
 .grab-badge.no-grab { background: #666; color: #fff; }
-.bet-badge { position: absolute; top: -8px; right: -22px; background: var(--btn-blue); color: #fff; font-size: 10px; padding: 2px 5px; border-radius: 8px; font-weight: bold; z-index: 10; }
+.bet-badge { position: absolute; top: -8px; right: -5px; background: var(--btn-blue); color: #fff; font-size: 10px; padding: 1px 4px; border-radius: 8px; font-weight: bold; z-index: 10; white-space: nowrap;}
 
 /* 牌面显示 */
-.other-cards { display: flex; gap: 2px; margin-top: 4px; }
-.small-card { width: 18px; height: 24px; border-radius: 2px; border: 1px solid #999; background: #fff; color: #333; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: bold; flex-direction: column; line-height: 1;}
+.other-cards { display: flex; gap: 1px; margin-bottom: 2px;}
+.small-card { width: 16px; height: 22px; border-radius: 2px; border: 1px solid #999; background: #fff; color: #333; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: bold; flex-direction: column; line-height: 0.9;}
 .small-card.red { color: #ff4d4f; }
 .small-card.back { background: repeating-linear-gradient(45deg, #1e3c72, #1e3c72 4px, #2a5298 4px, #2a5298 8px); border-color: #3b6bb4; color: transparent; }
 
-.card-type-text { font-size: 12px; font-weight: bold; margin-top: 2px; text-shadow: 0 1px 2px #000; }
-.type-normal { color: #aaa; font-size: 12px; }
-.type-niu { color: #ffd700; font-size: 13px; } 
-.type-max { color: #00f2fe; font-size: 17px; font-weight: 900; text-shadow: 0 0 8px #00f2fe; } 
+.card-type-text { font-size: 11px; font-weight: bold; text-shadow: 0 1px 2px #000; white-space: nowrap;}
+.type-normal { color: #aaa; font-size: 11px; }
+.type-niu { color: #ffd700; font-size: 12px; } 
+.type-max { color: #00f2fe; font-size: 14px; font-weight: 900; text-shadow: 0 0 8px #00f2fe; } 
 
+/* 底部区域 */
 .bottom-bar { height: 180px; position: relative; z-index: 50; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 10px; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent); }
 .bottom-tools { display: flex; justify-content: space-between; align-items: center; padding: 0 15px; margin-bottom: 10px; }
 .tool-btn { padding: 6px 12px; border-radius: 20px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 12px; cursor: pointer; font-weight: bold; }
@@ -131,10 +138,12 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 .btn-action { background: linear-gradient(#66bb6a, #43a047); }
 .btn-cancel { background: #555; }
 
+/* 自己手牌区 */
 .my-hand-area { display: flex; justify-content: center; align-items: flex-end; position: relative; height: 90px; }
-.my-info { position: absolute; left: 15px; bottom: 15px; display: flex; flex-direction: column; align-items: center; }
-.my-cards { display: flex; gap: 5px; margin-left: 40px; }
-.my-card { width: 42px; height: 62px; background: #fff; border-radius: 5px; border: 1px solid #ccc; display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; font-size: 18px; position: relative; color: #333; }
+.my-info { position: absolute; left: 15px; bottom: 5px; display: flex; flex-direction: column; align-items: center; width: 60px; }
+.my-banker-icon { position: absolute; top: -8px; left: -8px; background: #ff4d4f; color: #fff; font-size: 11px; padding: 1px 6px; border-radius: 10px; font-weight: bold; z-index: 10; border: 1px solid #fff;}
+.my-cards { display: flex; gap: 5px; margin-left: 40px; margin-bottom: 15px;}
+.my-card { width: 42px; height: 62px; background: #fff; border-radius: 5px; border: 1px solid #ccc; display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; font-size: 18px; position: relative; color: #333; box-shadow: 0 2px 5px rgba(0,0,0,0.5);}
 .my-card.red { color: #ff4d4f; }
 .my-card.back { background: repeating-linear-gradient(45deg, #1e3c72, #1e3c72 4px, #2a5298 4px, #2a5298 8px); border-color: #3b6bb4; color: transparent; }
 .my-card .suit { font-size: 20px; }
@@ -148,7 +157,7 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 .big-card.back { background: repeating-linear-gradient(45deg, #1e3c72, #1e3c72 10px, #2a5298 10px, #2a5298 20px); border-color: #3b6bb4; color: transparent; }
 
 @keyframes floatUpScore { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-60px) scale(1.5); } }
-.score-fly { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 18px; font-weight: bold; animation: floatUpScore 2s forwards; pointer-events: none; z-index: 100; }
+.score-fly { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 18px; font-weight: bold; animation: floatUpScore 2s forwards; pointer-events: none; z-index: 100; white-space: nowrap;}
 .score-win { color: #00ff88; text-shadow: 0 0 10px #00ff88; } 
 .score-lose { color: #ff4d4f; text-shadow: 0 0 10px #ff4d4f; }
 
@@ -159,24 +168,31 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 .rich-name { flex: 1; font-size: 15px; margin-left: 10px; color: #fff; text-align: left; }
 .rich-score { font-size: 16px; font-weight: bold; }
 .rich-actions { display: flex; gap: 10px; margin-top: 20px; }
-.chat-panel { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(20,25,40,0.95); border-top: 1px solid #333; padding: 10px; z-index: 200; transform: translateY(100%); transition: 0.3s; }
+
+/* 聊天面板，移动到右下角 */
+.floating-chat-btn {
+    position: fixed; bottom: 200px; right: 15px;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--btn-blue); color: #fff;
+    font-size: 22px; display: flex; justify-content: center; align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.6); z-index: 1000; cursor: pointer;
+    border: 2px solid var(--gold);
+}
+.chat-panel { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(20,25,40,0.95); border-top: 1px solid #333; padding: 10px; z-index: 2000; transform: translateY(100%); transition: 0.3s; }
 .chat-panel.show { transform: translateY(0); }
 .chat-box { display: flex; flex-wrap: wrap; gap: 8px; }
 .chat-btn { background: rgba(255,255,255,0.1); border: 1px solid #555; color: #ddd; padding: 8px 12px; border-radius: 15px; font-size: 13px; font-weight: bold; }
 .chat-toast { position: fixed; bottom: 210px; left: 15px; display: flex; flex-direction: column; gap: 5px; z-index: 150; pointer-events: none; }
 .chat-toast-line { background: rgba(0,0,0,0.7); border-radius: 15px; padding: 6px 14px; font-size: 13px; color: #fff; border: 1px solid var(--gold); }
 
-/* 开发者面板折叠样式 */
-.dev-panel { 
-    position: absolute; top: 60px; right: 10px; background: rgba(30,34,48,0.95); border: 1px solid var(--gold); border-radius: 8px; padding: 0; z-index: 200; display: none; width: 220px; overflow: hidden;
-}
+/* 开发者面板 */
+.dev-panel { position: absolute; top: 60px; right: 10px; background: rgba(30,34,48,0.95); border: 1px solid var(--gold); border-radius: 8px; padding: 0; z-index: 200; display: none; width: 220px; overflow: hidden; }
 .dev-header { background: rgba(0,0,0,0.5); padding: 10px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #444; }
 .dev-header h4 { color: var(--gold); font-size: 12px; margin: 0; }
 .dev-content { padding: 10px; display: none; }
 </style>
 </head>
 <body>
-<!-- 背景音乐 -->
 <audio id="bgmAudio" src="bgm.mp3" loop></audio>
 
 <div class="login-box" id="loginBox">
@@ -232,7 +248,6 @@ input, button, select { outline: none; border: none; font-family: inherit; }
             <button class="top-btn" onclick="copyRoomLink()">复制链接</button>
             <button class="top-btn" onclick="showRuleModal()">规则</button>
             <button class="top-btn" onclick="toggleBgm()" id="bgmToggle">🔇音乐</button>
-            <button class="top-btn" onclick="toggleChatPanel()">聊天</button>
         </div>
     </div>
     <div class="spectator-bar" id="spectatorBar">观战席: <span id="spectatorNames">暂无</span></div>
@@ -252,15 +267,21 @@ input, button, select { outline: none; border: none; font-family: inherit; }
         </div>
         <div class="action-area" id="actionArea"></div>
         <div class="my-hand-area">
-            <div class="my-info">
-                <div class="avatar-box" id="myAvatarBox" style="border:none; background:transparent;"></div>
-                <div class="player-score" id="myScore" style="display:none;">0</div>
+            <!-- 自己左下角的信息 -->
+            <div class="my-info" id="myInfoBox" style="display:none;">
+                <div style="position:relative;">
+                    <div class="my-banker-icon" id="myBankerIcon" style="display:none;">庄</div>
+                    <img class="player-avatar" id="myAvatarImg" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%232a2a2a'/><circle cx='50' cy='40' r='20' fill='%23888'/><path d='M20 90 Q50 60 80 90' stroke='%23888' stroke-width='15' fill='none'/></svg>">
+                    <div class="constellation-tag" id="myConstellation" style="position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);">狮子座</div>
+                </div>
+                <div class="player-name-box" id="myNameText" style="margin-top:8px;">我</div>
+                <div class="player-score-text" id="myScoreText">0</div>
             </div>
+            <!-- 自己底部的牌 -->
             <div class="my-cards" id="myCardsBox"></div>
         </div>
     </div>
 
-    <!-- 开发者面板 (支持折叠) -->
     <div class="dev-panel" id="devPanel">
         <div class="dev-header" onclick="toggleDevPanel()">
             <h4>开发者控牌</h4>
@@ -299,6 +320,9 @@ input, button, select { outline: none; border: none; font-family: inherit; }
         </div>
     </div>
 </div>
+
+<!-- 聊天按钮放在右下角 -->
+<div class="floating-chat-btn" onclick="toggleChatPanel()">💬</div>
 
 <!-- 大号暗牌开牌弹窗 -->
 <div class="big-card-modal" id="bigCardModal" onclick="revealMyCard()">
@@ -557,9 +581,11 @@ function updateSpectateUI() {
     if(isSpectator) { 
         document.getElementById('watchingText').style.display = 'block';
         document.getElementById('myCardsBox').innerHTML=''; 
+        document.getElementById('myInfoBox').style.display = 'none';
         document.getElementById('autoReadyBtn').style.display = 'none';
     } else { 
         document.getElementById('watchingText').style.display = 'none';
+        document.getElementById('myInfoBox').style.display = 'flex';
         document.getElementById('autoReadyBtn').style.display = 'block';
     }
     document.getElementById('spectatorNames').innerText = spectatorList.length>0 ? spectatorList.join(', ') : '暂无';
@@ -645,35 +671,59 @@ function addBot() {
 function renderSeats() {
     const wrap = document.getElementById('seatArea'); wrap.innerHTML='';
     
+    // 生成除自己以外的座位数组
     let otherSeats = [];
-    for(let i=1; i<=currentSeat; i++) if(i !== mySeatId) otherSeats.push(i);
+    for(let i=1; i<=currentSeat; i++) {
+        if(i !== mySeatId) otherSeats.push(i);
+    }
     
+    // 将剩余座位平分到左右两边
     let L = Math.ceil(otherSeats.length / 2);
     let R = otherSeats.length - L;
     
-    let yStart = 18, yEnd = 72; 
+    // 动态计算 Y 轴间距，从 12% 到 78%，避免挤在一起
+    let yStart = 12, yEnd = 78; 
     
+    // 左侧排布
     for(let j=0; j<L; j++) {
         let seatId = otherSeats[j];
         let y = L > 1 ? (yStart + (yEnd - yStart) * (j / (L - 1))) : (yStart + yEnd)/2;
-        createSeatElement(seatId, 15, y, wrap);
+        // xPct 设为 10，靠到最左边
+        createSeatElement(seatId, 10, y, wrap, 'left');
     }
+    // 右侧排布
     for(let j=0; j<R; j++) {
         let seatId = otherSeats[L + j];
         let y = R > 1 ? (yStart + (yEnd - yStart) * (j / (R - 1))) : (yStart + yEnd)/2;
-        createSeatElement(seatId, 85, y, wrap);
+        // xPct 设为 90，靠到最右边
+        createSeatElement(seatId, 90, y, wrap, 'right');
     }
     
-    if(mySeatId>0) { 
-        document.getElementById('myScore').innerText=seatScores[mySeatId]||0; 
+    // 更新底部的自己信息
+    if(mySeatId > 0 && occupiedSeats[mySeatId]) {
+        document.getElementById('myInfoBox').style.display = 'flex';
+        document.getElementById('myNameText').innerText = occupiedSeats[mySeatId];
+        document.getElementById('myScoreText').innerText = seatScores[mySeatId] || 0;
+        
+        let cIdx = (mySeatId - 1) % constellationNames.length;
+        document.getElementById('myConstellation').innerText = constellationNames[cIdx];
+        
+        // 自己是不是庄
+        if (bankerSeat === mySeatId) {
+            document.getElementById('myBankerIcon').style.display = 'block';
+        } else {
+            document.getElementById('myBankerIcon').style.display = 'none';
+        }
+    } else {
+        document.getElementById('myInfoBox').style.display = 'none';
     }
+    
     renderMyCards();
 }
 
-function createSeatElement(i, xPct, yPct, wrap) {
+function createSeatElement(i, xPct, yPct, wrap, side) {
     const div = document.createElement('div'); 
     div.className='seat'; 
-    if(bankerSeat===i) div.classList.add('banker-seat'); 
     if(readySet.has(i)) div.classList.add('is-ready');
     div.style.left=`${xPct}%`; div.style.top=`${yPct}%`; div.id=`seat-${i}`;
     div.onclick = () => onSeatClick(i); 
@@ -703,18 +753,32 @@ function createSeatElement(i, xPct, yPct, wrap) {
         gh = `<div class="bet-badge">打${betMultipliers[i]}倍</div>`;
     }
 
-    let cName = constellationNames[i-1] || '神秘座';
+    let cName = constellationNames[(i-1)%constellationNames.length] || '神秘座';
     
     if (occupiedSeats[i]) {
-        div.innerHTML=`
-        ${bankerSeat===i?'<div class="banker-icon">庄</div>':''}${gh}${fh}
-        <div class="occupied-seat-box">
-            <img class="player-avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%232a2a2a'/><circle cx='50' cy='40' r='20' fill='%23888'/><path d='M20 90 Q50 60 80 90' stroke='%23888' stroke-width='15' fill='none'/></svg>">
-            <div class="constellation-tag">${cName}</div>
-            <div class="player-name-box">${occupiedSeats[i]}</div>
-            <div class="player-score-text">${seatScores[i]||0}</div>
-        </div>
-        ${ch}${th}`;
+        // 组装头像部分和卡牌部分
+        let avatarHtml = `
+            <div class="avatar-part">
+                ${bankerSeat===i?'<div class="banker-icon">庄</div>':''}${gh}${fh}
+                <img class="player-avatar" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%232a2a2a'/><circle cx='50' cy='40' r='20' fill='%23888'/><path d='M20 90 Q50 60 80 90' stroke='%23888' stroke-width='15' fill='none'/></svg>">
+                <div class="constellation-tag">${cName}</div>
+                <div class="player-name-box">${occupiedSeats[i]}</div>
+                <div class="player-score-text">${seatScores[i]||0}</div>
+            </div>
+        `;
+        
+        let cardsHtml = `
+            <div class="cards-part">
+                ${ch}
+                ${th}
+            </div>
+        `;
+
+        if (side === 'left') {
+            div.innerHTML = `<div class="seat-content row-left">${avatarHtml}${cardsHtml}</div>`;
+        } else {
+            div.innerHTML = `<div class="seat-content row-right">${cardsHtml}${avatarHtml}</div>`;
+        }
     } else {
         div.innerHTML=`
         <div class="empty-seat-box">
@@ -976,7 +1040,6 @@ function calcNiuNiu(cards) {
 }
 
 /* 🌟 快捷语与真人语音包 */
-// 增加了一条“算你牛逼”，对应 voice6.mp3
 const quickPhrases = [
     { text: '快点吧，我等的花都谢了', audio: 'voice1.mp3' },
     { text: '别吹牛逼，有本事干到底', audio: 'voice2.mp3' },
@@ -1003,7 +1066,6 @@ function initChatPanel(){
 }
 
 function sendChat(text, audioFile){ 
-    // 1. 显示聊天条
     const to=document.getElementById('chatToast');
     const l=document.createElement('div'); 
     l.className='chat-toast-line'; 
@@ -1011,7 +1073,6 @@ function sendChat(text, audioFile){
     to.appendChild(l); 
     setTimeout(()=>l.remove(),3000); 
     
-    // 2. 播放对应的真人语音包
     if(audioFile) {
         const audio = new Audio(audioFile);
         audio.play().catch(e => {
@@ -1020,19 +1081,15 @@ function sendChat(text, audioFile){
     }
 }
 
-/* 🌟 BGM 音乐控制 */
-let isMusicPlaying = false;
 function toggleBgm() { 
     const audio = document.getElementById('bgmAudio');
     const btn = document.getElementById('bgmToggle'); 
-    if(isMusicPlaying) { 
+    if(!audio.paused) { 
         audio.pause();
         btn.innerText = '🔇音乐'; 
-        isMusicPlaying = false;
     } else { 
         audio.play().then(() => {
             btn.innerText = '🔊音乐'; 
-            isMusicPlaying = true;
         }).catch(e => {
             console.log('音频播放失败，请确保有 bgm.mp3 并在用户交互后触发');
         });
