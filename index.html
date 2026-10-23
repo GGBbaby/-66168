@@ -73,10 +73,10 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 }
 .game-room::before { content: ''; position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(10,5,20,0.6); z-index: -1; }
 
-.top-bar { height: 50px; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; background: rgba(0,0,0,0.7); font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.top-bar { height: 50px; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; background: rgba(0,0,0,0.7); font-size: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
 .room-card { background: var(--gold-dark); color: #000; padding: 3px 8px; border-radius: 4px; font-weight: bold; }
 .top-btn { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; padding: 4px 10px; border-radius: 15px; font-size: 11px; cursor: pointer; }
-.spectator-bar { position: absolute; top: 55px; left: 10px; background: rgba(0,0,0,0.7); border: 1px solid #555; border-radius: 15px; padding: 4px 10px; font-size: 11px; color: #ccc; z-index: 100; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.spectator-bar { position: absolute; top: 55px; left: 10px; background: rgba(0,0,0,0.7); border: 1px solid #555; border-radius: 15px; padding: 4px 10px; font-size: 11px; color: #ccc; z-index: 100; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;}
 
 .game-area { flex: 1; position: relative; overflow: hidden; }
 .center-area { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 10; pointer-events: none; }
@@ -86,52 +86,53 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 /* 观战提示大字 */
 .watching-text { position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%); font-size: 36px; font-weight: 900; color: #fff; background: linear-gradient(90deg, #8338ec, #3a86ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 20px rgba(131, 56, 236, 0.8); z-index: 50; pointer-events: none; letter-spacing: 5px;}
 
-/* 座位区（左右排列，靠边且牌朝向中间） */
+/* 座位区（自适应排版） */
 .seat-area { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
 .seat { position: absolute; display: flex; pointer-events: auto; transition: all 0.3s ease; transform: translate(-50%, -50%); cursor: pointer; z-index: 10; }
+.seat-content { display: flex; align-items: center; gap: 4px; }
 
-/* 弹性布局：左侧头像在左牌在右，右侧牌在左头像在右 */
-.seat-content { display: flex; align-items: center; gap: 6px; }
-.row-left { flex-direction: row; }
-.row-right { flex-direction: row-reverse; }
+/* 头像盒 */
+.avatar-part { display: flex; flex-direction: column; align-items: center; position: relative; width: 50px; flex-shrink: 0; transition: all 0.3s;}
+.player-avatar { width: 38px; height: 38px; border-radius: 6px; border: 1px solid #555; object-fit: cover; transition: all 0.3s;}
+.constellation-tag { background: #1e5b9e; color: #fff; font-size: 10px; padding: 0 3px; border-radius: 4px; margin-top: -6px; z-index: 2; border: 1px solid #55aaff; font-weight: bold; white-space: nowrap; transform: scale(0.9);}
+.player-name-box { background: rgba(0,0,0,0.8); color: #fff; padding: 1px 4px; border-radius: 10px; font-size: 10px; margin-top: 2px; white-space: nowrap; width: 50px; overflow: hidden; text-overflow: ellipsis; text-align: center;}
+.player-score-text { color: #ffd700; font-size: 14px; font-weight: 900; margin-top: 1px; text-shadow: 0 2px 4px #000, 0 0 5px rgba(255,215,0,0.5); }
 
-/* 空座位样式 */
-.empty-seat-box { border: 2px solid #a67c39; background: rgba(0,0,0,0.3); border-radius: 8px; width: 56px; height: 56px; display: flex; flex-direction: column; justify-content: center; align-items: center; box-shadow: inset 0 0 10px rgba(166,124,57,0.3); }
-.empty-arrow { color: #d4a34b; font-size: 16px; line-height: 1; margin-bottom: 2px; }
-.empty-name { color: #e6a23c; font-size: 12px; font-weight: bold; text-shadow: 0 1px 2px #000; font-family: 'ZCOOL KuaiLe', cursive; }
-
-/* 有人入座样式 */
-.avatar-part { display: flex; flex-direction: column; align-items: center; position: relative; width: 60px; flex-shrink: 0;}
-.player-avatar { width: 44px; height: 44px; border-radius: 6px; border: 1px solid #555; object-fit: cover; }
-.constellation-tag { background: #1e5b9e; color: #fff; font-size: 10px; padding: 0 4px; border-radius: 4px; margin-top: -6px; z-index: 2; border: 1px solid #55aaff; font-weight: bold; white-space: nowrap;}
-.player-name-box { background: rgba(0,0,0,0.8); color: #fff; padding: 1px 6px; border-radius: 10px; font-size: 11px; margin-top: 2px; white-space: nowrap; width: 60px; overflow: hidden; text-overflow: ellipsis; text-align: center;}
-.player-score-text { color: #ffd700; font-size: 15px; font-weight: 900; margin-top: 1px; text-shadow: 0 2px 4px #000, 0 0 5px rgba(255,215,0,0.5); }
-
-.cards-part { display: flex; flex-direction: column; align-items: center; }
-.banker-icon { position: absolute; top: -8px; left: -8px; background: #ff4d4f; color: #fff; font-size: 10px; padding: 1px 5px; border-radius: 10px; font-weight: bold; z-index: 10; border: 1px solid #fff;}
-.grab-badge { position: absolute; top: -8px; right: -5px; background: var(--btn-gold); color: #000; font-size: 10px; padding: 1px 4px; border-radius: 8px; font-weight: bold; z-index: 10; white-space: nowrap;}
-.grab-badge.no-grab { background: #666; color: #fff; }
-.bet-badge { position: absolute; top: -8px; right: -5px; background: var(--btn-blue); color: #fff; font-size: 10px; padding: 1px 4px; border-radius: 8px; font-weight: bold; z-index: 10; white-space: nowrap;}
-
-/* 牌面显示 */
+/* 牌盒 */
+.cards-part { display: flex; flex-direction: column; align-items: center; position: relative; transition: all 0.3s;}
 .other-cards { display: flex; gap: 1px; margin-bottom: 2px;}
-.small-card { width: 16px; height: 22px; border-radius: 2px; border: 1px solid #999; background: #fff; color: #333; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: bold; flex-direction: column; line-height: 0.9;}
+.small-card { width: 15px; height: 22px; border-radius: 2px; border: 1px solid #ccc; background: #fff; color: #333; display: flex; justify-content: center; align-items: center; font-size: 10px; font-weight: bold; flex-direction: column; line-height: 1; transition: all 0.3s;}
 .small-card.red { color: #ff4d4f; }
 .small-card.back { background: repeating-linear-gradient(45deg, #1e3c72, #1e3c72 4px, #2a5298 4px, #2a5298 8px); border-color: #3b6bb4; color: transparent; }
 
-.card-type-text { font-size: 11px; font-weight: bold; text-shadow: 0 1px 2px #000; white-space: nowrap;}
-.type-normal { color: #aaa; font-size: 11px; }
-.type-niu { color: #ffd700; font-size: 12px; } 
-.type-max { color: #00f2fe; font-size: 14px; font-weight: 900; text-shadow: 0 0 8px #00f2fe; } 
+/* 牌型文字盖在牌面上 */
+.card-type-overlay { 
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-size: 18px; font-weight: 900; color: #ffe600;
+    -webkit-text-stroke: 1.5px #5c2e00; text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    white-space: nowrap; pointer-events: none; z-index: 20; font-family: 'ZCOOL KuaiLe', cursive;
+}
+
+.banker-icon { position: absolute; top: -6px; left: -6px; background: #ff4d4f; color: #fff; font-size: 10px; padding: 1px 4px; border-radius: 10px; font-weight: bold; z-index: 10; border: 1px solid #fff;}
+.grab-badge { position: absolute; top: -6px; right: -10px; background: var(--btn-gold); color: #000; font-size: 10px; padding: 1px 4px; border-radius: 8px; font-weight: bold; z-index: 10; white-space: nowrap;}
+.grab-badge.no-grab { background: #666; color: #fff; }
+.bet-badge { position: absolute; top: -6px; right: -10px; background: var(--btn-blue); color: #fff; font-size: 10px; padding: 1px 4px; border-radius: 8px; font-weight: bold; z-index: 10; white-space: nowrap;}
+
+/* 缩放小尺寸适配 */
+.scale-down .player-avatar { width: 30px; height: 30px; }
+.scale-down .avatar-part { width: 40px; }
+.scale-down .player-name-box { width: 40px; font-size: 9px; }
+.scale-down .small-card { width: 12px; height: 18px; font-size: 8px; }
+.scale-down .card-type-overlay { font-size: 14px; -webkit-text-stroke: 1px #5c2e00; }
 
 /* 底部区域 */
-.bottom-bar { height: 180px; position: relative; z-index: 50; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 10px; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent); }
-.bottom-tools { display: flex; justify-content: space-between; align-items: center; padding: 0 15px; margin-bottom: 10px; }
+.bottom-bar { height: 170px; position: relative; z-index: 50; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 10px; background: linear-gradient(to top, rgba(0,0,0,0.95), transparent); }
+.bottom-tools { display: flex; justify-content: space-between; align-items: center; padding: 0 15px; margin-bottom: 5px; }
 .tool-btn { padding: 6px 12px; border-radius: 20px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 12px; cursor: pointer; font-weight: bold; }
 .tool-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
 .base-score-text { background: rgba(0,0,0,0.6); border: 1px solid #555; padding: 4px 15px; border-radius: 15px; font-size: 13px; color: var(--gold); }
 
-.action-area { display: flex; justify-content: center; gap: 8px; margin-bottom: 10px; min-height: 36px; flex-wrap: wrap; }
+.action-area { display: flex; justify-content: center; gap: 8px; margin-bottom: 5px; min-height: 36px; flex-wrap: wrap; }
 .action-btn { padding: 6px 16px; border-radius: 18px; font-size: 13px; font-weight: bold; cursor: pointer; color: #fff; }
 .btn-grab { background: linear-gradient(#e53935, #c62828); }
 .btn-bet { background: var(--btn-blue); }
@@ -169,7 +170,7 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 .rich-score { font-size: 16px; font-weight: bold; }
 .rich-actions { display: flex; gap: 10px; margin-top: 20px; }
 
-/* 聊天面板，移动到右下角 */
+/* 聊天面板 */
 .floating-chat-btn {
     position: fixed; bottom: 200px; right: 15px;
     width: 46px; height: 46px; border-radius: 50%;
@@ -241,11 +242,11 @@ input, button, select { outline: none; border: none; font-family: inherit; }
 <div class="game-room" id="gameRoom">
     <div class="top-bar">
         <div style="display:flex;gap:10px;align-items:center;">
+            <button class="top-btn" style="background:var(--gold-dark); color:#000; font-weight:bold;" onclick="exitRoom()">大厅</button>
             <div class="room-card">房卡 <span id="roomCardNum">0</span></div>
             <div>局数:<span id="nowRound">1</span>/24</div>
         </div>
         <div style="display:flex;gap:5px;">
-            <button class="top-btn" onclick="copyRoomLink()">复制链接</button>
             <button class="top-btn" onclick="showRuleModal()">规则</button>
             <button class="top-btn" onclick="toggleBgm()" id="bgmToggle">🔇音乐</button>
         </div>
@@ -267,7 +268,6 @@ input, button, select { outline: none; border: none; font-family: inherit; }
         </div>
         <div class="action-area" id="actionArea"></div>
         <div class="my-hand-area">
-            <!-- 自己左下角的信息 -->
             <div class="my-info" id="myInfoBox" style="display:none;">
                 <div style="position:relative;">
                     <div class="my-banker-icon" id="myBankerIcon" style="display:none;">庄</div>
@@ -277,7 +277,6 @@ input, button, select { outline: none; border: none; font-family: inherit; }
                 <div class="player-name-box" id="myNameText" style="margin-top:8px;">我</div>
                 <div class="player-score-text" id="myScoreText">0</div>
             </div>
-            <!-- 自己底部的牌 -->
             <div class="my-cards" id="myCardsBox"></div>
         </div>
     </div>
@@ -321,15 +320,12 @@ input, button, select { outline: none; border: none; font-family: inherit; }
     </div>
 </div>
 
-<!-- 聊天按钮放在右下角 -->
 <div class="floating-chat-btn" onclick="toggleChatPanel()">💬</div>
 
-<!-- 大号暗牌开牌弹窗 -->
 <div class="big-card-modal" id="bigCardModal" onclick="revealMyCard()">
     <div class="big-card back" id="bigCardEl"></div>
 </div>
 
-<!-- 弹窗区 -->
 <div class="modal-mask" id="registerModal">
     <div class="modal-box">
         <h3>注册账号</h3>
@@ -515,6 +511,16 @@ function createRoom() {
     }, 500);
 }
 
+function exitRoom() {
+    if(confirm('确定要退出当前房间并返回大厅吗？')) {
+        localStorage.removeItem('xtd_room_' + currentRoomId);
+        let active = JSON.parse(localStorage.getItem('xtd_active_rooms') || '[]');
+        active = active.filter(id => id !== currentRoomId);
+        localStorage.setItem('xtd_active_rooms', JSON.stringify(active));
+        window.location.href = window.location.pathname;
+    }
+}
+
 function enterRoomDirectly() {
     document.getElementById('lobbyPage').style.display='none'; 
     document.getElementById('gameRoom').style.display='flex';
@@ -669,37 +675,72 @@ function addBot() {
 }
 
 function renderSeats() {
-    const wrap = document.getElementById('seatArea'); wrap.innerHTML='';
+    const wrap = document.getElementById('seatArea'); 
+    wrap.innerHTML='';
     
-    // 生成除自己以外的座位数组
+    // 1. 收集除自己外的其他座位
     let otherSeats = [];
     for(let i=1; i<=currentSeat; i++) {
         if(i !== mySeatId) otherSeats.push(i);
     }
     
-    // 将剩余座位平分到左右两边
-    let L = Math.ceil(otherSeats.length / 2);
-    let R = otherSeats.length - L;
+    let topSeats = [];
+    let leftSeats = [];
+    let rightSeats = [];
     
-    // 动态计算 Y 轴间距，从 12% 到 78%，避免挤在一起
-    let yStart = 12, yEnd = 78; 
-    
-    // 左侧排布
-    for(let j=0; j<L; j++) {
-        let seatId = otherSeats[j];
-        let y = L > 1 ? (yStart + (yEnd - yStart) * (j / (L - 1))) : (yStart + yEnd)/2;
-        // xPct 设为 10，靠到最左边
-        createSeatElement(seatId, 10, y, wrap, 'left');
-    }
-    // 右侧排布
-    for(let j=0; j<R; j++) {
-        let seatId = otherSeats[L + j];
-        let y = R > 1 ? (yStart + (yEnd - yStart) * (j / (R - 1))) : (yStart + yEnd)/2;
-        // xPct 设为 90，靠到最右边
-        createSeatElement(seatId, 90, y, wrap, 'right');
+    // 2. 交替分配逻辑：防止全挤在一排
+    let isLeft = true;
+    for(let i=0; i<otherSeats.length; i++) {
+        if(isLeft) leftSeats.push(otherSeats[i]);
+        else rightSeats.push(otherSeats[i]);
+        isLeft = !isLeft;
     }
     
-    // 更新底部的自己信息
+    // 3. 计算顶部需要几个人
+    let totalOthers = otherSeats.length;
+    let topCount = 0;
+    if (totalOthers >= 5) topCount = 1;
+    if (totalOthers >= 11) topCount = 2;
+    if (totalOthers >= 17) topCount = 3;
+
+    // 从左右两边抽出最靠近中间的人放到顶部
+    for(let t=0; t<topCount; t++) {
+        if (leftSeats.length >= rightSeats.length && leftSeats.length > 0) {
+            topSeats.push(leftSeats.shift());
+        } else if (rightSeats.length > 0) {
+            topSeats.push(rightSeats.shift());
+        }
+    }
+
+    // 4. 缩放判断（如果人数很多，整体变小）
+    let needScale = currentSeat > 8 || leftSeats.length >= 4 || rightSeats.length >= 4;
+    
+    // 5. 渲染顶部
+    for (let j=0; j<topSeats.length; j++) {
+        let seatId = topSeats[j];
+        let xPct = 50;
+        if (topSeats.length === 2) xPct = j === 0 ? 30 : 70;
+        else if (topSeats.length === 3) xPct = j === 0 ? 20 : (j === 1 ? 50 : 80);
+        createSeatElement(seatId, xPct, 8, wrap, 'top', needScale);
+    }
+
+    // 6. 渲染左侧
+    let yStart = topSeats.length > 0 ? 24 : 15; 
+    let yEnd = 78;
+    for(let j=0; j<leftSeats.length; j++) {
+        let seatId = leftSeats[j];
+        let y = leftSeats.length > 1 ? (yStart + (yEnd - yStart) * (j / (leftSeats.length - 1))) : (yStart + yEnd)/2;
+        createSeatElement(seatId, 12, y, wrap, 'left', needScale);
+    }
+
+    // 7. 渲染右侧
+    for(let j=0; j<rightSeats.length; j++) {
+        let seatId = rightSeats[j];
+        let y = rightSeats.length > 1 ? (yStart + (yEnd - yStart) * (j / (rightSeats.length - 1))) : (yStart + yEnd)/2;
+        createSeatElement(seatId, 88, y, wrap, 'right', needScale);
+    }
+    
+    // 更新底部自己信息
     if(mySeatId > 0 && occupiedSeats[mySeatId]) {
         document.getElementById('myInfoBox').style.display = 'flex';
         document.getElementById('myNameText').innerText = occupiedSeats[mySeatId];
@@ -708,12 +749,8 @@ function renderSeats() {
         let cIdx = (mySeatId - 1) % constellationNames.length;
         document.getElementById('myConstellation').innerText = constellationNames[cIdx];
         
-        // 自己是不是庄
-        if (bankerSeat === mySeatId) {
-            document.getElementById('myBankerIcon').style.display = 'block';
-        } else {
-            document.getElementById('myBankerIcon').style.display = 'none';
-        }
+        if (bankerSeat === mySeatId) document.getElementById('myBankerIcon').style.display = 'block';
+        else document.getElementById('myBankerIcon').style.display = 'none';
     } else {
         document.getElementById('myInfoBox').style.display = 'none';
     }
@@ -721,18 +758,22 @@ function renderSeats() {
     renderMyCards();
 }
 
-function createSeatElement(i, xPct, yPct, wrap, side) {
+function createSeatElement(i, xPct, yPct, wrap, side, needScale) {
     const div = document.createElement('div'); 
     div.className='seat'; 
+    if (needScale) div.classList.add('scale-down');
+    
     if(readySet.has(i)) div.classList.add('is-ready');
-    div.style.left=`${xPct}%`; div.style.top=`${yPct}%`; div.id=`seat-${i}`;
+    div.style.left=`${xPct}%`; 
+    div.style.top=`${yPct}%`; 
+    div.id=`seat-${i}`;
     div.onclick = () => onSeatClick(i); 
     
     let ch=''; 
     if(playerCards[i] && occupiedSeats[i]){
         ch='<div class="other-cards">'; 
         playerCards[i].forEach((c,idx)=>{ 
-            let isShow = (gamePhase==='showdown' || gamePhase==='result' || myRole==='admin');
+            let isShow = (gamePhase==='showdown' || gamePhase==='result' || gamePhase==='reveal' || myRole==='admin');
             if(!isShow) {
                 ch+=`<div class="small-card back"></div>`; 
             } else {
@@ -743,20 +784,29 @@ function createSeatElement(i, xPct, yPct, wrap, side) {
         ch+='</div>'; 
     }
     
-    let th=''; if(playerCardInfo[i] && (gamePhase==='showdown'||gamePhase==='result')) th=`<div class="card-type-text ${playerCardInfo[i].cssClass}">${playerCardInfo[i].name} ×${playerCardInfo[i].multiplier}</div>`;
-    let fh=''; if(scoreAnimations[i]) fh=`<div class="score-fly ${scoreAnimations[i].val>0?'score-win':'score-lose'}">${scoreAnimations[i].val>0?'+':''}${scoreAnimations[i].val}</div>`;
+    let overlay = '';
+    if(playerCardInfo[i] && (gamePhase==='showdown'||gamePhase==='result'||gamePhase==='reveal')) {
+        let tName = playerCardInfo[i].name;
+        if (tName === '无牛') tName = '没牛';
+        overlay = `<div class="card-type-overlay">${tName}</div>`;
+    }
+
+    let fh=''; 
+    if(scoreAnimations[i]) {
+        let isWin = scoreAnimations[i].val > 0;
+        fh = `<div class="score-fly ${isWin?'score-win':'score-lose'}">${isWin?'+':''}${scoreAnimations[i].val}</div>`;
+    }
     
     let gh='';
     if(gamePhase==='grab' && grabMultipliers[i] !== undefined) {
         gh = `<div class="grab-badge ${grabMultipliers[i]===0?'no-grab':''}">${grabMultipliers[i]===0?'不抢':grabMultipliers[i]+'倍'}</div>`;
-    } else if((gamePhase==='bet'||gamePhase==='reveal') && betMultipliers[i] !== undefined) {
+    } else if((gamePhase==='bet'||gamePhase==='reveal'||gamePhase==='showdown') && betMultipliers[i] !== undefined) {
         gh = `<div class="bet-badge">打${betMultipliers[i]}倍</div>`;
     }
 
     let cName = constellationNames[(i-1)%constellationNames.length] || '神秘座';
     
     if (occupiedSeats[i]) {
-        // 组装头像部分和卡牌部分
         let avatarHtml = `
             <div class="avatar-part">
                 ${bankerSeat===i?'<div class="banker-icon">庄</div>':''}${gh}${fh}
@@ -770,15 +820,19 @@ function createSeatElement(i, xPct, yPct, wrap, side) {
         let cardsHtml = `
             <div class="cards-part">
                 ${ch}
-                ${th}
+                ${overlay}
             </div>
         `;
 
-        if (side === 'left') {
-            div.innerHTML = `<div class="seat-content row-left">${avatarHtml}${cardsHtml}</div>`;
+        let contentHtml = '';
+        if (side === 'left' || side === 'top') {
+            // 左边和顶部：头像在左，牌在右
+            contentHtml = `<div class="seat-content">${avatarHtml}${cardsHtml}</div>`;
         } else {
-            div.innerHTML = `<div class="seat-content row-right">${cardsHtml}${avatarHtml}</div>`;
+            // 右边：牌在左，头像在右
+            contentHtml = `<div class="seat-content">${cardsHtml}${avatarHtml}</div>`; 
         }
+        div.innerHTML = contentHtml;
     } else {
         div.innerHTML=`
         <div class="empty-seat-box">
@@ -822,7 +876,7 @@ function updateActionButtons() {
         }
     }
     else if(gamePhase==='bet'){ 
-        if(mySeatId===bankerSeat) a.innerHTML='<span style="color:var(--gold);font-size:12px;">等待下注</span>'; 
+        if(mySeatId===bankerSeat) a.innerHTML='<span style="color:var(--gold);font-size:12px;">等待闲家下注</span>'; 
         else {
             currentMultiSpec.forEach(m=>a.innerHTML+=`<button class="action-btn btn-bet" onclick="setBet(${m})">${m}倍</button>`); 
         }
@@ -881,7 +935,7 @@ function resolveBanker() {
         if(candidates.length === 0) candidates = s;
         bankerSeat = candidates[Math.floor(Math.random() * candidates.length)];
     }
-    speak('抢庄'); renderSeats(); updateActionButtons(); startTimer(5, startRevealPhase);
+    speak('抢庄结束'); renderSeats(); updateActionButtons(); startTimer(5, startRevealPhase);
 
     setTimeout(() => {
         for(let i=1; i<=currentSeat; i++) {
@@ -929,7 +983,10 @@ function revealMyCard() {
     bigCard.innerHTML = `<div>${c.suit.name}</div><div style="font-size:30px;">${c.val}</div>`;
     
     renderMyCards(); 
-    speak(playerCardInfo[mySeatId].name); 
+    
+    let tName = playerCardInfo[mySeatId].name;
+    if (tName === '无牛') tName = '没牛';
+    speak(tName); 
 }
 
 function goShowdown() {
@@ -942,17 +999,33 @@ function goShowdown() {
 function showdownAll() {
     clearInterval(countdownTimer); gamePhase='showdown'; document.getElementById('gamePhase').innerText='结算'; 
     for(let i=1;i<=currentSeat;i++) if(playerCards[i]) playerCards[i][4].hide=false; renderSeats();
-    let bi=playerCardInfo[bankerSeat]; scoreAnimations={};
+    
+    let bi = playerCardInfo[bankerSeat]; 
+    let bankerGrabMulti = grabMultipliers[bankerSeat] || 1;
+    
+    scoreAnimations={};
+    
     for(let i=1;i<=currentSeat;i++){ 
         if(!occupiedSeats[i]||i===bankerSeat||!playerCards[i]) continue; 
-        let pi=playerCardInfo[i]; let bm = betMultipliers[i] || 1; let r=compareCards(pi,bi); 
-        if(r>0){ let w=baseScore*bm*pi.multiplier; scoreAnimations[i]={val:'💰 +'+w}; seatScores[i]=(seatScores[i]||0)+w; } 
-        else { let l=baseScore*bm*bi.multiplier; scoreAnimations[i]={val:'💸 -'+l}; seatScores[i]=(seatScores[i]||0)-l; } 
+        let pi = playerCardInfo[i]; 
+        let bm = betMultipliers[i] || 1; 
+        let r = compareCards(pi, bi); 
+        
+        if(r > 0){ 
+            let w = baseScore * bm * pi.multiplier * bankerGrabMulti; 
+            scoreAnimations[i] = { val: w }; 
+            seatScores[i] = (seatScores[i] || 0) + w; 
+        } else { 
+            let l = baseScore * bm * bi.multiplier * bankerGrabMulti; 
+            scoreAnimations[i] = { val: -l }; 
+            seatScores[i] = (seatScores[i] || 0) - l; 
+        } 
     }
     
     let bCalc = 0; 
-    for(let s in scoreAnimations) bCalc += (scoreAnimations[s].val.includes('+') ? -parseInt(scoreAnimations[s].val.replace(/\D/g,'')) : parseInt(scoreAnimations[s].val.replace(/\D/g,'')));
-    scoreAnimations[bankerSeat]={val: (bCalc>0?'💰 +':'💸 ')+bCalc}; seatScores[bankerSeat]=(seatScores[bankerSeat]||0)+bCalc;
+    for(let s in scoreAnimations) bCalc += scoreAnimations[s].val > 0 ? -scoreAnimations[s].val : Math.abs(scoreAnimations[s].val);
+    scoreAnimations[bankerSeat] = { val: bCalc }; 
+    seatScores[bankerSeat] = (seatScores[bankerSeat] || 0) + bCalc;
     
     saveRoomState(); renderSeats();
     
@@ -965,7 +1038,7 @@ function showdownAll() {
         renderSeats(); updateActionButtons(); 
         
         checkStartGame();
-    }, 2500);
+    }, 3500);
 }
 
 function gameOver() {
@@ -980,7 +1053,7 @@ function showRichList() {
     document.getElementById('richListContent').innerHTML=h; 
     document.getElementById('richListModal').style.display='flex'; 
 }
-function closeRichList() { document.getElementById('richListModal').style.display='none'; location.reload(); }
+function closeRichList() { document.getElementById('richListModal').style.display='none'; exitRoom(); }
 
 function startTimer(sec, cb) { clearInterval(countdownTimer); leftTime=sec; const t=document.getElementById('countdown'); t.innerText=leftTime; t.style.display='flex'; countdownTimer=setInterval(()=>{ leftTime--; t.innerText=leftTime; if(leftTime<=0){ clearInterval(countdownTimer); t.style.display='none'; cb(); } },1000); }
 
